@@ -1,6 +1,7 @@
 version: "2.0"
 services:
   vpn:
+    id: "my-vpn-service"  # Добавленный идентификатор
     image: strongswan/strongswan:latest
     expose:
       - port: 500
