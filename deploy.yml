@@ -1,0 +1,40 @@
+version: "2.0"
+services:
+  vpn:
+    image: strongswan/strongswan:latest
+    expose:
+      - port: 500
+        to:
+          - global: true
+      - port: 4500
+        to:
+          - global: true
+    command: ["sh", "-c", "/entrypoint.sh"]
+    build:
+      context: .
+    env:
+      - "YOUR_PRE_SHARED_KEY=your_pre_shared_key"
+
+profiles:
+  compute:
+    vpn:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 256Mi
+        storage:
+          size: 256Mi
+
+placement:
+  akash:
+    pricing:
+      vpn:
+        denom: uakt
+        amount: 10000
+
+deployment:
+  vpn:
+    akash:
+      profile: vpn
+      count: 1
